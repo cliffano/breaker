@@ -1,8 +1,13 @@
 {
   "name": "sshout",
-  "description": "",
+  "description": "CLI tool to execute shell script on multiple remote hosts in parallel",
   "keywords": [
-    ""
+    "ssh",
+    "parallel",
+    "remote",
+    "cli",
+    "shell",
+    "script"
   ],
   "version": "0.0.1",
   "homepage": "http://github.com/cliffano/sshout",

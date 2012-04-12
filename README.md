@@ -1,4 +1,4 @@
-shoot [![http://travis-ci.org/cliffano/shoot](https://secure.travis-ci.org/cliffano/shoot.png?branch=master)](http://travis-ci.org/cliffano/shoot)
+Shoot [![http://travis-ci.org/cliffano/shoot](https://secure.travis-ci.org/cliffano/shoot.png?branch=master)](http://travis-ci.org/cliffano/shoot)
 -----------
 
 Shoot is a command-line tool to execute shell script or command on multiple remote hosts in parallel.

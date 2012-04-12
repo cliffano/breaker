@@ -1,27 +1,27 @@
-sshout [![http://travis-ci.org/cliffano/sshout](https://secure.travis-ci.org/cliffano/sshout.png?branch=master)](http://travis-ci.org/cliffano/sshout)
+shoot [![http://travis-ci.org/cliffano/shoot](https://secure.travis-ci.org/cliffano/shoot.png?branch=master)](http://travis-ci.org/cliffano/shoot)
 -----------
 
-Sshout is a CLI tool to execute shell script on multiple remote hosts in parallel.
+Shoot is a CLI tool to execute shell script on multiple remote hosts in parallel.
 
 Installation
 ------------
 
-    npm install -g sshout 
+    npm install -g shoot 
 
 Usage
 -----
 
 Create hosts and tasks file example:
 
-    sshout init
+    shoot init
     
 Display tasks, hosts, and tags information:
 
-    sshout tasks|hosts|tags
+    shoot tasks|hosts|tags
 
 Execute a task on multiple servers using a tag:
 
-    sshout do <task> <comma-separated-tags>
+    shoot do <task> <comma-separated-tags>
 
 Configuration
 -------------

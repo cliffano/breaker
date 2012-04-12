@@ -1,6 +1,6 @@
 {
-  "name": "sshout",
-  "description": "CLI tool to execute shell script on multiple remote hosts in parallel",
+  "name": "shoot",
+  "description": "CLI tool to execute shell commands on multiple remote hosts in parallel",
   "keywords": [
     "ssh",
     "parallel",
@@ -10,18 +10,18 @@
     "script"
   ],
   "version": "0.0.1",
-  "homepage": "http://github.com/cliffano/sshout",
+  "homepage": "http://github.com/cliffano/shoot",
   "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
   "bin": {
-    "sshout": "./bin/sshout"
+    "shoot": "./bin/shoot"
   },
-  "main": "./lib/sshout",
+  "main": "./lib/shoot",
   "repository": {
     "type": "git",
-    "url": "http://github.com/cliffano/sshout.git"
+    "url": "http://github.com/cliffano/shoot.git"
   },
   "bugs": {
-    "url": "http://github.com/cliffano/sshout/issues"
+    "url": "http://github.com/cliffano/shoot/issues"
   },
   "directories": {
     "bin": "./bin",
@@ -45,7 +45,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/cliffano/sshout/raw/master/LICENSE"
+      "url": "http://github.com/cliffano/shoot/raw/master/LICENSE"
     }
   ]
 }

@@ -1,7 +1,7 @@
 shoot [![http://travis-ci.org/cliffano/shoot](https://secure.travis-ci.org/cliffano/shoot.png?branch=master)](http://travis-ci.org/cliffano/shoot)
 -----------
 
-Shoot is a CLI tool to execute shell script on multiple remote hosts in parallel.
+Shoot is a command-line tool to execute shell script or command on multiple remote hosts in parallel.
 
 Installation
 ------------
@@ -11,7 +11,7 @@ Installation
 Usage
 -----
 
-Create hosts and tasks file example:
+Create hosts.json and task files examples:
 
     shoot init
     
@@ -19,9 +19,15 @@ Display tasks, hosts, and tags information:
 
     shoot tasks|hosts|tags
 
-Execute a task on multiple servers using a tag:
+Execute task on multiple servers:
 
-    shoot do <task> <comma-separated-tags>
+    shoot x <task> <comma-separated-tags>
+
+Execute command on multiple servers:
+
+    shoot x <command> <comma-separated-tags>
+
+remember to wrap command in quotes, e.g. "pwd; df -kh; uname -a;" 
 
 Configuration
 -------------

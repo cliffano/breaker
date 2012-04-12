@@ -1,6 +1,6 @@
 {
   "name": "shoot",
-  "description": "CLI tool to execute shell commands on multiple remote hosts in parallel",
+  "description": "Command-line tool to execute shell script or command on multiple remote hosts in parallel",
   "keywords": [
     "ssh",
     "parallel",

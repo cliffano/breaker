@@ -1,0 +1,43 @@
+{
+  "name": "sshout",
+  "description": "",
+  "keywords": [
+    ""
+  ],
+  "version": "0.0.1",
+  "homepage": "http://github.com/cliffano/sshout",
+  "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
+  "bin": {
+    "sshout": "./bin/sshout"
+  },
+  "main": "./lib/sshout",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/cliffano/sshout.git"
+  },
+  "bugs": {
+    "url": "http://github.com/cliffano/sshout/issues"
+  },
+  "directories": {
+    "bin": "./bin",
+    "lib": "./lib",
+    "test": "./test"
+  },
+  "dependencies": {
+    "": ""
+  },
+  "devDependencies": {
+    "sandboxed-module": "0.1.3",
+    "vows": "0.6.2"
+  },
+  "engines": {
+    "node": ">= 0.4.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/cliffano/sshout/raw/master/LICENSE"
+    }
+  ]
+}
+ 

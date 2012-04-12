@@ -1,4 +1,7 @@
-### 0.0.3 (SNAPSHOT)
+### 0.0.4 (SNAPSHOT)
+* 
+
+### 0.0.3
 * Rename project to Sshm (last one!)
 * Change exec target name to do
 

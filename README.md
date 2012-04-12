@@ -21,11 +21,11 @@ Display tasks, hosts, and tags information:
 
 Execute task on multiple servers:
 
-    sshm x <task> <comma-separated-tags>
+    sshm do <task> <comma-separated-tags>
 
 Execute command on multiple servers:
 
-    sshm x <command> <comma-separated-tags>
+    sshm do <command> <comma-separated-tags>
 
 remember to wrap command in quotes, e.g. "pwd; df -kh; uname -a;" 
 

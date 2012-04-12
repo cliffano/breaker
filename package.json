@@ -1,5 +1,5 @@
 {
-  "name": "shoot",
+  "name": "sshm",
   "description": "Command-line tool to execute shell script or command on multiple remote hosts in parallel",
   "keywords": [
     "ssh",
@@ -10,18 +10,18 @@
     "script"
   ],
   "version": "0.0.3",
-  "homepage": "http://github.com/cliffano/shoot",
+  "homepage": "http://github.com/cliffano/sshm",
   "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
   "bin": {
-    "shoot": "./bin/shoot"
+    "sshm": "./bin/sshm"
   },
-  "main": "./lib/shoot",
+  "main": "./lib/sshm",
   "repository": {
     "type": "git",
-    "url": "http://github.com/cliffano/shoot.git"
+    "url": "http://github.com/cliffano/sshm.git"
   },
   "bugs": {
-    "url": "http://github.com/cliffano/shoot/issues"
+    "url": "http://github.com/cliffano/sshm/issues"
   },
   "directories": {
     "bin": "./bin",
@@ -45,7 +45,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/cliffano/shoot/raw/master/LICENSE"
+      "url": "http://github.com/cliffano/sshm/raw/master/LICENSE"
     }
   ]
 }

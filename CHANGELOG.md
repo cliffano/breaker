@@ -1,5 +1,5 @@
 ### 0.0.3 (SNAPSHOT)
-* 
+* Rename project to Sshm (last one!)
 
 ### 0.0.2
 * Rename project to Shoot

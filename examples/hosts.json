@@ -1,0 +1,5 @@
+{
+  "host1": [ "tag-a", "tag-b", "tag-c" ],
+  "host2": [ "tag-b" ],
+  "host3": [ "tag-x", "tag-a" ]
+}

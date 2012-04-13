@@ -35,9 +35,9 @@ Configuration
 hosts.json file is a JSON file containing host name as key and tags array as value:
 
     {
-      "host1": [ "tag1", "tag2" ],
-      "host2": [ "tag1" ],
-      "host3": [ "tag3", "tag4" ]
+      "host1": [ "tag1", "tag2", "tag3" ],
+      "host2": [ "tag2" ],
+      "host3": [ "tag1", "tag8" ]
     }
 
 Tasks files are shell scripts having file name ending with '.sh', these files must be placed in the same directory as the hosts.json file.

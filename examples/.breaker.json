@@ -1,12 +1,14 @@
 [
   {
     "host": "myhost",
+    "desc": "myhostdescription",
     "user": "myuser",
     "key": "path/to/mykey",
     "labels": [ "mylabel1", "mylabel2" ]
   },
   {
     "host": "yourhost",
+    "desc": "yourhostdescription",
     "user": "youruser",
     "key": "path/to/yourkey",
     "labels": [ "yourlabel1", "yourlabel2" ]

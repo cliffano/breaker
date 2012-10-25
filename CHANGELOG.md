@@ -1,5 +1,8 @@
 ### 0.0.4 (SNAPSHOT)
-* 
+* Rename Sshm to Breaker (last one, really!!!)
+* Rename config file from hosts.json to .breaker.json
+* Add config file generation support supporting various formats
+* Remove tasks library support
 
 ### 0.0.3
 * Rename project to Sshm (last one!)

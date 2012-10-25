@@ -1,0 +1,14 @@
+[
+  {
+    "host": "myhost",
+    "user": "myuser",
+    "key": "path/to/mykey",
+    "labels": [ "mylabel1", "mylabel2" ]
+  },
+  {
+    "host": "yourhost",
+    "user": "youruser",
+    "key": "path/to/yourkey",
+    "labels": [ "yourlabel1", "yourlabel2" ]
+  }
+]

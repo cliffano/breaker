@@ -1,16 +1,23 @@
 [
   {
-    "host": "myhost",
-    "desc": "myhostdescription",
-    "user": "myuser",
-    "key": "path/to/mykey",
-    "labels": [ "mylabel1", "mylabel2", "ourlabel" ]
+    "host": "dev1.com",
+    "desc": "dev1description",
+    "user": "user1",
+    "key": "path/to/key1",
+    "labels": [ "dev1", "dev", "all" ]
   },
   {
-    "host": "yourhost",
-    "desc": "yourhostdescription",
-    "user": "youruser",
-    "key": "path/to/yourkey",
-    "labels": [ "yourlabel1", "yourlabel2", "ourlabel" ]
+    "host": "dev2.net",
+    "desc": "dev2description",
+    "user": "user2",
+    "key": "path/to/key2",
+    "labels": [ "dev2", "dev", "all" ]
+  },
+  {
+    "host": "prod1.org",
+    "desc": "prod1description",
+    "user": "user1",
+    "key": "path/to/key3",
+    "labels": [ "prod1", "prod", "all" ]
   }
 ]

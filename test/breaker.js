@@ -48,6 +48,30 @@ describe('breaker', function () {
     });
   });
 /*
+  describe('gen', function () {
+
+    it('should  when init is called', function (done) {
+      mocks.requires = {
+        'fs.extra': {
+          copy: function (source, target, cb) {
+            checks.fsx_copy_source = source;
+            checks.fsx_copy_target = target;
+            cb();
+          }
+        }
+      };
+      breaker = new (create(checks, mocks))();
+      breaker.init(function () {
+        done();
+      }); 
+      checks.fsx_copy_source.should.equal('/somedir/breaker/examples/.breaker.json');
+      checks.fsx_copy_target.should.equal('.breaker.json');
+      checks.console_log_messages.length.should.equal(1);
+      checks.console_log_messages[0].should.equal('Creating sample Breaker hosts file: .breaker.json');
+    }); 
+  });
+*/
+/*
   describe('iterate', function () {
 
     beforeEach(function () {

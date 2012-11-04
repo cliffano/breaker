@@ -55,6 +55,8 @@ describe('cli', function () {
 
     it('should contain format command with default type and delegate to breaker format when exec is called', function () {
       checks.bag_parse_commands.format.desc.should.equal('Format hosts info into specific type');
+      checks.bag_parse_commands.format.options[0].arg.should.equal('-t, --type <type>');
+      checks.bag_parse_commands.format.options[0].desc.should.equal('Format type');
       checks.bag_parse_commands.format.action({});
       checks.breaker_gen_type.should.equal('sshconfig');
       checks.breaker_gen_exit.should.be.a('function');

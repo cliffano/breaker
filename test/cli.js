@@ -23,8 +23,8 @@ describe('cli', function () {
             init: function (exit) {
               checks.breaker_init_exit = exit;
             },
-            gen: function (format, exit) {
-              checks.breaker_gen_format = format;
+            format: function (type, exit) {
+              checks.breaker_gen_type = type;
               checks.breaker_gen_exit = exit;
             }
           };
@@ -53,17 +53,17 @@ describe('cli', function () {
       checks.breaker_init_exit.should.be.a('function');
     });
 
-    it('should contain gen command with default format and delegate to breaker gen when exec is called', function () {
-      checks.bag_parse_commands.gen.desc.should.equal('Generate hosts info in a specified format');
-      checks.bag_parse_commands.gen.action({});
-      checks.breaker_gen_format.should.equal('sshconfig');
+    it('should contain format command with default type and delegate to breaker format when exec is called', function () {
+      checks.bag_parse_commands.format.desc.should.equal('Format hosts info into specific type');
+      checks.bag_parse_commands.format.action({});
+      checks.breaker_gen_type.should.equal('sshconfig');
       checks.breaker_gen_exit.should.be.a('function');
     });
 
-    it('should contain gen command with format when args contain specified format', function () {
-      checks.bag_parse_commands.gen.desc.should.equal('Generate hosts info in a specified format');
-      checks.bag_parse_commands.gen.action({ format: 'clusterssh' });
-      checks.breaker_gen_format.should.equal('clusterssh');
+    it('should contain format command with type when args contain specified type', function () {
+      checks.bag_parse_commands.format.desc.should.equal('Format hosts info into specific type');
+      checks.bag_parse_commands.format.action({ type: 'clusterssh' });
+      checks.breaker_gen_type.should.equal('clusterssh');
       checks.breaker_gen_exit.should.be.a('function');
     });
 

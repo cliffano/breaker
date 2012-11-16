@@ -2,22 +2,37 @@
   {
     "host": "dev1.com",
     "desc": "dev1description",
-    "user": "user1",
-    "key": "path/to/key1",
-    "labels": [ "dev1", "dev", "all" ]
+    "labels": [ "dev1", "dev", "all" ],
+    "ssh": [
+      {
+        "user": "user1",
+        "port": "22",
+        "key": "path/to/key1"
+      }
+    ]
   },
   {
     "host": "dev2.net",
     "desc": "dev2description",
-    "user": "user2",
-    "key": "path/to/key2",
-    "labels": [ "dev2", "dev", "all" ]
+    "labels": [ "dev2", "dev", "all" ],
+    "ssh": [
+      {
+        "user": "user2",
+        "port": "22",
+        "key": "path/to/key2"
+      }
+    ]
   },
   {
     "host": "prod1.org",
     "desc": "prod1description",
-    "user": "user1",
-    "key": "path/to/key3",
-    "labels": [ "prod1", "prod", "all" ]
+    "labels": [ "prod1", "prod", "all" ],
+    "ssh": [
+      {
+        "user": "user3",
+        "port": "22",
+        "key": "path/to/key3"
+      }
+    ]
   }
 ]

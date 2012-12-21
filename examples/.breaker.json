@@ -1,7 +1,7 @@
 [
   {
     "host": "dev1.com",
-    "desc": "dev1description",
+    "desc": "Dev1 description",
     "labels": [ "dev1", "dev", "all" ],
     "ssh": [
       {
@@ -13,7 +13,7 @@
   },
   {
     "host": "dev2.net",
-    "desc": "dev2description",
+    "desc": "Dev2 description",
     "labels": [ "dev2", "dev", "all" ],
     "ssh": [
       {
@@ -25,7 +25,7 @@
   },
   {
     "host": "prod1.org",
-    "desc": "prod1description",
+    "desc": "Prod1 description",
     "labels": [ "prod1", "prod", "all" ],
     "ssh": [
       {

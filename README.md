@@ -1,7 +1,7 @@
 Breaker [![http://travis-ci.org/cliffano/breaker](https://secure.travis-ci.org/cliffano/breaker.png?branch=master)](http://travis-ci.org/cliffano/breaker)
 -----------
 
-Breaker is a utility tool for other server tools.
+Breaker is a utility tool for other server management tools.
 
 This is handy when you want to remotely execute shell command via SSH on multiple hosts. Also useful when you want to format various host files from a single .breaker.json config.
 

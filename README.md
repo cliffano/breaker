@@ -1,49 +1,49 @@
-Sshm [![http://travis-ci.org/cliffano/sshm](https://secure.travis-ci.org/cliffano/sshm.png?branch=master)](http://travis-ci.org/cliffano/sshm)
+Sshm [![http://travis-ci.org/cliffano/breaker](https://secure.travis-ci.org/cliffano/breaker.png?branch=master)](http://travis-ci.org/cliffano/breaker)
 -----------
 
-Sshm is a command-line tool to execute shell script or command on multiple remote hosts in parallel.
+Breaker is a command-line tool to execute shell script or command on multiple remote hosts in parallel.
 
 Installation
 ------------
 
-    npm install -g sshm 
+    npm install -g breaker 
 
 Usage
 -----
 
-Create hosts.json and task files examples:
+Create sample Breaker hosts file:
 
-    sshm init
+    breaker init
     
-Display tasks, hosts, and tags information:
+Format hosts info into clusterssh config:
 
-    sshm tasks|hosts|tags
+    breaker -t clusterssh format
 
-Execute task on multiple servers:
+Format hosts info into SSH config:
 
-    sshm do <task> <comma-separated-tags>
+    breaker -t sshconfig format
 
-Execute command on multiple servers:
+Format selected hosts info into clusterssh config:
 
-    sshm do <command> <comma-separated-tags>
+    breaker -t clusterssh -l label1,label2 format
 
-remember to wrap command in quotes, e.g. "pwd; df -kh; uname -a;" 
+Remotely execute shell command via SSH in series:
+
+    breaker ssh <command>
+
+Remotely execute shell command via SSH on selected hosts in series:
+
+    breaker -l label1,label2 ssh <command>
+
+remember to wrap command in quotes, e.g. "pwd; df -kh; uname -a;"
 
 Configuration
 -------------
 
-hosts.json file is a JSON file containing host name as key and tags array as value:
+.breaker.json contains an array of host objects:
 
-    {
-      "host1": [ "tag1", "tag2", "tag3" ],
-      "host2": [ "tag2" ],
-      "host3": [ "tag1", "tag8" ]
-    }
-
-Tasks files are shell scripts having file name ending with '.sh', these files must be placed in the same directory as the hosts.json file.
-
-Colophon
---------
-
-Follow [@cliffano](http://twitter.com/cliffano) on Twitter.
- 
+    [
+      { "host": "dev1.com", "labels": [ "dev" ] },
+      { "host": "dev2.com", "labels": [ "dev" ] },
+      { "host": "prod1.com", "labels": [ "prod" ] }
+    ]

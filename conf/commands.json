@@ -11,7 +11,7 @@
       ]
     },
     "ssh": {
-      "desc": "Remotely execute shell command via SSH on selected hosts in parallel\n\tbreaker [-l <label1,...,labelN>] ssh <command>",
+      "desc": "Remotely execute shell command via SSH in series\n\tbreaker [-l <label1,...,labelN>] ssh <command>",
       "options": [
         { "arg": "-l, --labels <labels>", "desc": "Comma-separated labels" }
       ]

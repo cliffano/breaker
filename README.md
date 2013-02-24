@@ -1,7 +1,9 @@
-Sshm [![http://travis-ci.org/cliffano/breaker](https://secure.travis-ci.org/cliffano/breaker.png?branch=master)](http://travis-ci.org/cliffano/breaker)
+Breaker [![http://travis-ci.org/cliffano/breaker](https://secure.travis-ci.org/cliffano/breaker.png?branch=master)](http://travis-ci.org/cliffano/breaker)
 -----------
 
-Breaker is a command-line tool to execute shell script or command on multiple remote hosts in parallel.
+Breaker is a utility tool for other server tools.
+
+This is handy when you want to remotely execute shell command via SSH on multiple hosts. Also useful when you want to format various host files from a single .breaker.json config.
 
 Installation
 ------------

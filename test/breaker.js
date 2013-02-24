@@ -1,174 +1,122 @@
 var bag = require('bagofholding'),
-  _jscov = require('../lib/breaker'),
-  sandbox = require('sandboxed-module'),
-  should = require('should'),
-  checks, mocks,
-  breaker;
+  buster = require('buster'),
+  Breaker = require('../lib/breaker'),
+  fsx = require('fs.extra');
 
-describe('breaker', function () {
-
-  function create(checks, mocks) {
-    return sandbox.require('../lib/breaker', {
-      requires: mocks.requires,
-      globals: {
-        console: bag.mock.console(checks),
-        process: bag.mock.process(checks, mocks)
-      },
-      locals: {
-        __dirname: '/somedir/breaker/lib'
-      }
+buster.testCase('breaker - init', {
+  'should copy sample .breaker.json file to current directory when init is called': function (done) {
+    this.stub(fsx, 'copy', function (src, dest, cb) {
+      assert.isTrue(src.match(/\/examples\/.breaker.json$/).length === 1);
+      assert.equals(dest, '.breaker.json');
+      cb();
+    });
+    var breaker = new Breaker();
+    breaker.init(function (err, result) {
+      assert.equals(err, undefined);
+      done();
     });
   }
-
-  beforeEach(function () {
-    checks = {};
-    mocks = {};
-  });
-
-  describe('init', function () {
-
-    it('should copy sample .breaker.json file to current directory when init is called', function (done) {
-      mocks.requires = {
-        'fs.extra': {
-          copy: function (source, target, cb) {
-            checks.fsx_copy_source = source;
-            checks.fsx_copy_target = target;
-            cb();
-          }
-        }
-      };
-      breaker = new (create(checks, mocks))();
-      breaker.init(function () {
-        done();
-      }); 
-      checks.fsx_copy_source.should.equal('/somedir/breaker/examples/.breaker.json');
-      checks.fsx_copy_target.should.equal('.breaker.json');
-      checks.console_log_messages.length.should.equal(1);
-      checks.console_log_messages[0].should.equal('Creating sample Breaker hosts file: .breaker.json');
-    });
-  });
-
-  describe('format', function () {
-
-    it('should use specified formatter and log formatted output when format is called', function (done) {
-      mocks.requires = {
-        'bagofholding': {
-          cli: {
-            readConfigFileSync: function (file) {
-              checks.cli_file = file;
-              return '[{ "foo": "bar" }]';
-            }
-          }
-        },
-        './formatters/sshboom': {
-          format: function (conf) {
-            checks.format_conf = conf;
-            return 'some formatted output';
-          }
-        }
-      };
-      breaker = new (create(checks, mocks))();
-      breaker.format('sshboom', function () {
-        done();
-      }); 
-      checks.format_conf[0].foo.should.equal('bar');
-      checks.console_log_messages.length.should.equal(1);
-      checks.console_log_messages[0].should.equal('some formatted output');
-    }); 
-  });
-
-  describe('ssh', function () {
-
-    it('should exec ssh command to all hosts when labels are not supplied', function (done) {
-      checks.exec_commands = [];
-      mocks.requires = {
-        'bagofholding': {
-          cli: {
-            readConfigFileSync: function (file) {
-              checks.cli_file = file;
-              return '[' +
-                '{ "host": "dev1.json", "port": 22, "user": "user1", "key": "id_rsa1", "labels": "dev1" },' +
-                '{ "host": "dev2.json", "port": 22, "user": "user2", "key": "id_rsa2", "labels": "dev2" },' +
-                '{ "host": "dev3.json", "port": 22, "user": "user3", "key": "id_rsa3", "labels": "dev3" }' +
-                ']';
-            },
-            exec: function (command, fallthrough, cb) {
-              fallthrough.should.equal(true);
-              checks.exec_commands.push(command);
-              cb();
-            }
-          }
-        }
-      };
-      breaker = new (create(checks, mocks))();
-      breaker.ssh('df -kh;', undefined, function () {
-        done();
-      }); 
-      checks.console_log_messages.length.should.equal(3);
-      checks.console_log_messages[0].should.equal('+ dev1.json');
-      checks.console_log_messages[1].should.equal('+ dev2.json');
-      checks.console_log_messages[2].should.equal('+ dev3.json');
-      checks.exec_commands.length.should.equal(3);
-      checks.exec_commands[0].should.equal('ssh -i id_rsa1 user1@dev1.json:22 \'df -kh;\'');
-      checks.exec_commands[1].should.equal('ssh -i id_rsa2 user2@dev2.json:22 \'df -kh;\'');
-      checks.exec_commands[2].should.equal('ssh -i id_rsa3 user3@dev3.json:22 \'df -kh;\'');
-    }); 
-
-    it('should construct command without key, user, and port when they are not configured', function (done) {
-      checks.exec_commands = [];
-      mocks.requires = {
-        'bagofholding': {
-          cli: {
-            readConfigFileSync: function (file) {
-              checks.cli_file = file;
-              return '[' +
-                '{ "host": "dev1.json", "labels": "dev1" }' +
-                ']';
-            },
-            exec: function (command, fallthrough, cb) {
-              fallthrough.should.equal(true);
-              checks.exec_commands.push(command);
-              cb();
-            }
-          }
-        }
-      };
-      breaker = new (create(checks, mocks))();
-      breaker.ssh('df -kh;', undefined, function () {
-        done();
-      }); 
-      checks.console_log_messages.length.should.equal(1);
-      checks.console_log_messages[0].should.equal('+ dev1.json');
-      checks.exec_commands.length.should.equal(1);
-      checks.exec_commands[0].should.equal('ssh  dev1.json \'df -kh;\'');
-    }); 
-
-    it('should not execute any command when labels opt do not match any label in configuration', function (done) {
-      checks.exec_commands = [];
-      mocks.requires = {
-        'bagofholding': {
-          cli: {
-            readConfigFileSync: function (file) {
-              checks.cli_file = file;
-              return '[' +
-                '{ "host": "dev1.json", "labels": "dev1" }' +
-                ']';
-            },
-            exec: function (command, fallthrough, cb) {
-              fallthrough.should.equal(true);
-              checks.exec_commands.push(command);
-              cb();
-            }
-          }
-        }
-      };
-      breaker = new (create(checks, mocks))();
-      breaker.ssh('df -kh;', ['foo1', 'foo2', 'foo3'], function () {
-        done();
-      }); 
-      checks.console_log_messages.length.should.equal(0);
-      checks.exec_commands.length.should.equal(0);
-    });
-  });
 });
- 
+
+buster.testCase('breaker - format', {
+  setUp: function () {
+    this.mockConsole = this.mock(console);
+  },
+  'should use specified typed formatter and log output': function (done) {
+    this.mockConsole.expects('log').once().withExactArgs('clusters = dev\n\ndev = dev1.com');
+    var breaker = new Breaker();
+    breaker._config = function () {
+      return [{ host: 'dev1.com', labels: ['dev'] }];
+    };
+    breaker.format('clusterssh', function (err, result) {
+      assert.equals(err, undefined);
+      done();
+    });
+  }
+});
+
+buster.testCase('breaker - ssh', {
+  setUp: function () {
+    this.mockCli = this.mock(bag.cli);
+    this.mockConsole = this.mock(console);
+  },
+  'should exec ssh command to hosts': function (done) {
+    this.mockCli.expects('exec').once().withArgs('ssh -i id_rsa1 user1@dev1.com:22 \'df -kh;\'', true).callsArgWith(2);
+    this.mockCli.expects('exec').once().withArgs('ssh -i id_rsa2 user2@dev2.com:22 \'df -kh;\'', true).callsArgWith(2);
+    this.mockCli.expects('exec').once().withArgs('ssh -i id_rsa3 user3@dev3.com:22 \'df -kh;\'', true).callsArgWith(2);
+    this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev1.com');
+    this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev2.com');
+    this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev3.com');
+    var breaker = new Breaker();
+    breaker._config = function () {
+      return [
+        { "host": "dev1.com", "port": 22, "user": "user1", "key": "id_rsa1", "labels": "dev1" },
+        { "host": "dev2.com", "port": 22, "user": "user2", "key": "id_rsa2", "labels": "dev2" },
+        { "host": "dev3.com", "port": 22, "user": "user3", "key": "id_rsa3", "labels": "dev3" }
+        ];
+    };
+    breaker.ssh('df -kh;', function (err, results) {
+      assert.isNull(err);
+      done();
+    });
+  },
+  'should create ssh command without key, with default user, and no port': function (done) {
+    this.mockCli.expects('exec').once().withArgs('ssh  dev1.com \'df -kh;\'', true).callsArgWith(2);
+    this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev1.com');
+    var breaker = new Breaker();
+    breaker._config = function () {
+      return [
+        { "host": "dev1.com", "labels": "dev1" }
+        ];
+    };
+    breaker.ssh('df -kh;', function (err, results) {
+      assert.isNull(err);
+      done();
+    });
+  }
+});
+
+buster.testCase('breaker - _config', {
+  setUp: function () {
+    this.mockCli = this.mock(bag.cli);
+  },
+  'should return only config with specified label': function () {
+    this.mockCli.expects('lookupFile').once().returns('[' +
+      '{"host":"dev1.com","labels":["dev"]},' +
+      '{"host":"prod1.com","labels":["prod"]},' +
+      '{"host":"dev2.com","labels":["dev","build"]},' +
+      '{"host":"test1.com","labels":["test"]}]');
+    var filtered = new Breaker({ labels: ['prod'] })._config();
+    assert.equals(filtered.length, 1);
+    assert.equals(filtered[0].host, 'prod1.com');
+  },
+  'should return only config with specified label when there are multiple labels': function () {
+    this.mockCli.expects('lookupFile').once().returns('[' +
+      '{"host":"dev1.com","labels":["dev"]},' +
+      '{"host":"prod1.com","labels":["prod"]},' +
+      '{"host":"dev2.com","labels":["dev","build"]},' +
+      '{"host":"test1.com","labels":["test"]}]');
+    var filtered = new Breaker({ labels: ['prod', 'test'] })._config();
+    assert.equals(filtered.length, 2);
+    assert.equals(filtered[0].host, 'prod1.com');
+    assert.equals(filtered[1].host, 'test1.com');
+  },
+  'should return all config when there is no label': function () {
+    this.mockCli.expects('lookupFile').once().returns('[' +
+      '{"host":"dev1.com","labels":["dev"]},' +
+      '{"host":"prod1.com","labels":["prod"]},' +
+      '{"host":"dev2.com","labels":["dev","build"]},' +
+      '{"host":"test1.com","labels":["test"]}]');
+    var filtered = new Breaker()._config();
+    assert.equals(filtered.length, 4);
+    assert.equals(filtered[0].host, 'dev1.com');
+    assert.equals(filtered[1].host, 'prod1.com');
+    assert.equals(filtered[2].host, 'dev2.com');
+    assert.equals(filtered[3].host, 'test1.com');
+  },
+  'should return empty array when config is empty': function () {
+    this.mockCli.expects('lookupFile').once().returns('[]');
+    var filtered = new Breaker()._config();
+    assert.equals(filtered.length, 0);
+  }
+});

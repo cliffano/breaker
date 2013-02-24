@@ -6,19 +6,14 @@
     "format": {
       "desc": "Format hosts info\n\tbreaker [-t <clusterssh|sshconfig>] format",
       "options": [
-        {
-          "arg": "-t, --type <type>",
-          "desc": "Format type"
-        }
+        { "arg": "-t, --type <type>", "desc": "Format type" },
+        { "arg": "-l, --labels <labels>", "desc": "Comma-separated labels" }
       ]
     },
     "ssh": {
       "desc": "Remotely execute shell command via SSH on selected hosts in parallel\n\tbreaker [-l <label1,...,labelN>] ssh <command>",
       "options": [
-        {
-          "arg": "-l, --labels <labels>",
-          "desc": "Comma separated labels"
-        }
+        { "arg": "-l, --labels <labels>", "desc": "Comma-separated labels" }
       ]
     }
   }

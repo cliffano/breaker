@@ -1,4 +1,7 @@
-### 0.0.4-pre
+### 0.0.5-pre
+*
+
+### 0.0.4
 * Rename Sshm to Breaker (last one, really!!!)
 * Rename config file from hosts.json to .breaker.json
 * Add config file generation support supporting various formats

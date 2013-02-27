@@ -118,5 +118,20 @@ buster.testCase('breaker - _config', {
     this.mockCli.expects('lookupFile').once().returns('[]');
     var filtered = new Breaker()._config();
     assert.equals(filtered.length, 0);
+  },
+  'should remove filtered out labels': function () {
+    this.mockCli.expects('lookupFile').once().returns('[' +
+      '{"host":"dev1.com","labels":["dev"]},' +
+      '{"host":"prod1.com","labels":["prod","live"]},' +
+      '{"host":"dev2.com","labels":["dev","build"]},' +
+      '{"host":"test1.com","labels":["ci","test","qa"]}]');
+    var filtered = new Breaker({ labels: ['prod', 'test'] })._config();
+    assert.equals(filtered.length, 2);
+    assert.equals(filtered[0].host, 'prod1.com');
+    assert.equals(filtered[0].labels.length, 1);
+    assert.equals(filtered[0].labels[0], 'prod');
+    assert.equals(filtered[1].host, 'test1.com');
+    assert.equals(filtered[1].labels.length, 1);
+    assert.equals(filtered[1].labels[0], 'test');
   }
 });

@@ -124,14 +124,19 @@ buster.testCase('breaker - _config', {
       '{"host":"dev1.com","labels":["dev"]},' +
       '{"host":"prod1.com","labels":["prod","live"]},' +
       '{"host":"dev2.com","labels":["dev","build"]},' +
+      '{"host":"xyz.com","labels":["prod","test","dev","build"]},' +
       '{"host":"test1.com","labels":["ci","test","qa"]}]');
     var filtered = new Breaker({ labels: ['prod', 'test'] })._config();
-    assert.equals(filtered.length, 2);
+    assert.equals(filtered.length, 3);
     assert.equals(filtered[0].host, 'prod1.com');
     assert.equals(filtered[0].labels.length, 1);
     assert.equals(filtered[0].labels[0], 'prod');
-    assert.equals(filtered[1].host, 'test1.com');
-    assert.equals(filtered[1].labels.length, 1);
-    assert.equals(filtered[1].labels[0], 'test');
+    assert.equals(filtered[1].host, 'xyz.com');
+    assert.equals(filtered[1].labels.length, 2);
+    assert.equals(filtered[1].labels[0], 'prod');
+    assert.equals(filtered[1].labels[1], 'test');
+    assert.equals(filtered[2].host, 'test1.com');
+    assert.equals(filtered[2].labels.length, 1);
+    assert.equals(filtered[2].labels[0], 'test');
   }
 });

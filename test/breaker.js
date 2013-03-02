@@ -138,5 +138,39 @@ buster.testCase('breaker - _config', {
     assert.equals(filtered[2].host, 'test1.com');
     assert.equals(filtered[2].labels.length, 1);
     assert.equals(filtered[2].labels[0], 'test');
+  },
+  'should handle regex labels': function () {
+    this.mockCli.expects('lookupFile').once().returns('[' +
+      '{"host":"dev1.com","labels":["dev"]},' +
+      '{"host":"prod1.com","labels":["prod"]},' +
+      '{"host":"dev2.com","labels":["dev","build"]},' +
+      '{"host":"test1.com","labels":["test"]}]');
+    var filtered = new Breaker({ labels: ['.*e.*'] })._config();
+    assert.equals(filtered.length, 3);
+    assert.equals(filtered[0].host, 'dev1.com');
+    assert.equals(filtered[1].host, 'dev2.com');
+    assert.equals(filtered[2].host, 'test1.com');
+  },
+  'should handle position aware labels': function () {
+    this.mockCli.expects('lookupFile').once().returns('[' +
+      '{"host":"dev1.com","labels":["dev"]},' +
+      '{"host":"prod1.com","labels":["prod"]},' +
+      '{"host":"dev2.com","labels":["dev","build"]},' +
+      '{"host":"test1.com","labels":["test"]}]');
+    var filtered = new Breaker({ labels: ['ld$', '^p'] })._config();
+    assert.equals(filtered.length, 2);
+    assert.equals(filtered[0].host, 'prod1.com');
+    assert.equals(filtered[1].host, 'dev2.com');
+  },
+  'should handle labels containing dash': function () {
+    this.mockCli.expects('lookupFile').once().returns('[' +
+      '{"host":"dev1.com","labels":["dev-app"]},' +
+      '{"host":"prod1.com","labels":["prod-db"]},' +
+      '{"host":"dev2.com","labels":["dev-app","build"]},' +
+      '{"host":"test1.com","labels":["test-util"]}]');
+    var filtered = new Breaker({ labels: ['^dev-', 'whatever'] })._config();
+    assert.equals(filtered.length, 2);
+    assert.equals(filtered[0].host, 'dev1.com');
+    assert.equals(filtered[1].host, 'dev2.com');
   }
 });

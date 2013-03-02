@@ -33,11 +33,15 @@ Remotely execute shell command via SSH in series:
 
     breaker ssh <command>
 
+remember to wrap command in quotes, e.g. "pwd; df -kh; uname -a;"
+
 Remotely execute shell command via SSH on selected hosts in series:
 
     breaker -l label1,label2 ssh <command>
 
-remember to wrap command in quotes, e.g. "pwd; df -kh; uname -a;"
+Filter label using regular expressions
+
+    breaker -l .*dev.*,^prod,backup$ ssh <command>
 
 Configuration
 -------------

@@ -1,5 +1,5 @@
 ### 0.0.5-pre
-*
+* Add regex label filtering support
 
 ### 0.0.4
 * Rename Sshm to Breaker (last one, really!!!)

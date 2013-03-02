@@ -45,14 +45,34 @@ buster.testCase('breaker - ssh', {
     this.mockCli.expects('exec').once().withArgs('ssh -i id_rsa2 user2@dev2.com:22 \'df -kh;\'', true).callsArgWith(2);
     this.mockCli.expects('exec').once().withArgs('ssh -i id_rsa3 user3@dev3.com:22 \'df -kh;\'', true).callsArgWith(2);
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev1.com');
+    this.mockConsole.expects('log').once().withExactArgs('> ssh -i id_rsa1 user1@dev1.com:22 \'df -kh;\'');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev2.com');
+    this.mockConsole.expects('log').once().withExactArgs('> ssh -i id_rsa2 user2@dev2.com:22 \'df -kh;\'');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev3.com');
+    this.mockConsole.expects('log').once().withExactArgs('> ssh -i id_rsa3 user3@dev3.com:22 \'df -kh;\'');
     var breaker = new Breaker();
     breaker._config = function () {
       return [
-        { "host": "dev1.com", "port": 22, "user": "user1", "key": "id_rsa1", "labels": "dev1" },
-        { "host": "dev2.com", "port": 22, "user": "user2", "key": "id_rsa2", "labels": "dev2" },
-        { "host": "dev3.com", "port": 22, "user": "user3", "key": "id_rsa3", "labels": "dev3" }
+        { "host": "dev1.com", "ssh": [{ "port": 22, "user": "user1", "key": "id_rsa1" }], "labels": "dev1" },
+        { "host": "dev2.com", "ssh": [{ "port": 22, "user": "user2", "key": "id_rsa2" }], "labels": "dev2" },
+        { "host": "dev3.com", "ssh": [{ "port": 22, "user": "user3", "key": "id_rsa3" }], "labels": "dev3" }
+        ];
+    };
+    breaker.ssh('df -kh;', function (err, results) {
+      assert.isNull(err);
+      done();
+    });
+  },
+  'should exec multiple ssh settings with same command on same host': function (done) {
+    this.mockCli.expects('exec').once().withArgs('ssh -i id_rsa1 user1@dev1.com:22 \'df -kh;\'', true).callsArgWith(2);
+    this.mockCli.expects('exec').once().withArgs('ssh -i id_rsa2 user2@dev1.com:2222 \'df -kh;\'', true).callsArgWith(2);
+    this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev1.com');
+    this.mockConsole.expects('log').once().withExactArgs('> ssh -i id_rsa1 user1@dev1.com:22 \'df -kh;\'');
+    this.mockConsole.expects('log').once().withExactArgs('> ssh -i id_rsa2 user2@dev1.com:2222 \'df -kh;\'');
+    var breaker = new Breaker();
+    breaker._config = function () {
+      return [
+        { "host": "dev1.com", "ssh": [{ "port": 22, "user": "user1", "key": "id_rsa1" }, { "port": 2222, "user": "user2", "key": "id_rsa2" }], "labels": "dev1" },
         ];
     };
     breaker.ssh('df -kh;', function (err, results) {
@@ -63,6 +83,7 @@ buster.testCase('breaker - ssh', {
   'should create ssh command without key, with default user, and no port': function (done) {
     this.mockCli.expects('exec').once().withArgs('ssh  dev1.com \'df -kh;\'', true).callsArgWith(2);
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev1.com');
+    this.mockConsole.expects('log').once().withExactArgs('> ssh  dev1.com \'df -kh;\'');
     var breaker = new Breaker();
     breaker._config = function () {
       return [

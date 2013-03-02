@@ -50,10 +50,24 @@ Filter label using regular expressions
 Configuration
 -------------
 
-.breaker.json contains an array of host objects:
+.breaker.json contains an array of host objects.
+
+For standard SSH (current user, default port, no key), only host needs to be specified, labels are useful for filtering hosts by labels:
 
     [
       { "host": "dev1.com", "labels": [ "dev" ] },
       { "host": "dev2.com", "labels": [ "dev" ] },
       { "host": "prod1.com", "labels": [ "prod" ] }
+    ]
+
+For SSH with specific key, user, and port (all optionals):
+
+    [
+      { "host": "dev1.com", "labels": [ "dev" ],
+        "ssh":
+          [
+            { "user": "user1", "port": 2222, "key": "path/to/key1" },
+            { "user": "user2", "port": 2223, "key": "path/to/key2" }
+          ]
+        }
     ]

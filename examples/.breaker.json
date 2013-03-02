@@ -6,7 +6,7 @@
     "ssh": [
       {
         "user": "user1",
-        "port": "22",
+        "port": 221,
         "key": "path/to/key1"
       }
     ]
@@ -18,7 +18,7 @@
     "ssh": [
       {
         "user": "user2",
-        "port": "22",
+        "port": 222,
         "key": "path/to/key2"
       }
     ]
@@ -30,7 +30,7 @@
     "ssh": [
       {
         "user": "user3",
-        "port": "22",
+        "port": 223,
         "key": "path/to/key3"
       }
     ]

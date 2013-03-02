@@ -1,4 +1,7 @@
-### 0.0.5-pre
+### 0.0.6-pre
+*
+
+### 0.0.5
 * Add regex label filtering support
 * Add ansible type for formatting Ansible inventory file
 

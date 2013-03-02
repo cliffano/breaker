@@ -4,7 +4,7 @@
       "desc": "Create sample Breaker hosts file\n\tbreaker init"
     },
     "format": {
-      "desc": "Format hosts info\n\tbreaker [-t <clusterssh|sshconfig>] format",
+      "desc": "Format hosts info\n\tbreaker [-t <clusterssh|ansible|sshconfig>] format",
       "options": [
         { "arg": "-t, --type <type>", "desc": "Format type" },
         { "arg": "-l, --labels <labels>", "desc": "Comma-separated labels" }

@@ -3,7 +3,7 @@ Breaker [![http://travis-ci.org/cliffano/breaker](https://secure.travis-ci.org/c
 
 Breaker is a utility tool for other server management tools.
 
-This is handy when you want to remotely execute shell command via SSH on multiple hosts. Also useful when you want to format various host files from a single .breaker.json config.
+This is handy when you want to remotely execute shell command via SSH on multiple hosts. Also useful when you want to format various host files (<a href="http://www.debianadmin.com/ssh-on-multiple-servers-using-cluster-ssh.html">clusterssh config</a>, <a href="http://ansible.cc/docs/patterns.html#hosts-and-groups">Ansible inventory</a>, <a href="http://nerderati.com/2011/03/simplify-your-life-with-an-ssh-config-file/">SSH config</a>) from a single .breaker.json configuration file.
 
 Installation
 ------------
@@ -20,6 +20,10 @@ Create sample Breaker hosts file:
 Format hosts info into clusterssh config:
 
     breaker -t clusterssh format
+
+Format hosts info into Ansible inventory:
+
+    breaker -t ansible format
 
 Format hosts info into SSH config:
 

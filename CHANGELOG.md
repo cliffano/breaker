@@ -1,5 +1,6 @@
 ### 0.0.5-pre
 * Add regex label filtering support
+* Add ansible type for formatting Ansible inventory file
 
 ### 0.0.4
 * Rename Sshm to Breaker (last one, really!!!)

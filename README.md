@@ -1,4 +1,4 @@
-Breaker [![Build](https://secure.travis-ci.org/cliffano/breaker.png?branch=master)](http://travis-ci.org/cliffano/breaker) [![Dependencies](https://david-dm.org/cliffano/breaker)](https://david-dm.org/cliffano/breaker)
+Breaker [![Build](https://secure.travis-ci.org/cliffano/breaker.png?branch=master)](http://travis-ci.org/cliffano/breaker) [![Dependencies](https://david-dm.org/cliffano/breaker.png)](https://david-dm.org/cliffano/breaker)
 -----------
 
 Breaker is a utility tool for other server management tools.

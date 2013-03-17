@@ -32,5 +32,17 @@ buster.testCase('sshconfig - format', {
       'Host bbb\n    HostName dev3.com\n    User user3\n\n\n' +
       'Host ccc\n    HostName dev1.com\n    User user1\n\n'
     );
+  },
+  'should format config without key, user, and port': function () {
+    var conf = [
+      { host: 'dev1.com', ssh: [{}], labels: [ 'dev1' ] }
+    ];
+    assert.equals(formatter.format(conf), 'Host dev1\n    HostName dev1.com\n\n');
+  },
+  'should format config without ssh as empty string': function () {
+    var conf = [
+      { host: 'dev1.com', labels: [ 'dev1' ] }
+    ];
+    assert.equals(formatter.format(conf), '');
   }
 });

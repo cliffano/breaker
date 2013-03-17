@@ -72,7 +72,7 @@ buster.testCase('breaker - ssh', {
     var breaker = new Breaker();
     breaker._config = function () {
       return [
-        { "host": "dev1.com", "ssh": [{ "port": 22, "user": "user1", "key": "id_rsa1" }, { "port": 2222, "user": "user2", "key": "id_rsa2" }], "labels": "dev1" },
+        { "host": "dev1.com", "ssh": [{ "port": 22, "user": "user1", "key": "id_rsa1" }, { "port": 2222, "user": "user2", "key": "id_rsa2" }], "labels": "dev1" }
         ];
     };
     breaker.ssh('df -kh;', function (err, results) {

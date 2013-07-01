@@ -1,5 +1,4 @@
-var bag = require('bagofholding'),
-  buster = require('buster'),
+var buster = require('buster'),
   formatter = require('../../lib/formatters/ansible');
 
 buster.testCase('ansible - format', {

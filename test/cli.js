@@ -1,4 +1,4 @@
-var bag = require('bagofholding'),
+var bag = require('bagofcli'),
   buster = require('buster'),
   cli = require('../lib/cli'),
   Breaker = require('../lib/breaker');
@@ -12,7 +12,7 @@ buster.testCase('cli - exec', {
       assert.defined(actions.commands.ssh.action);
       done();
     };
-    this.stub(bag, 'cli', { command: mockCommand });
+    this.stub(bag, 'command', mockCommand);
     cli.exec();
   }
 });
@@ -23,11 +23,8 @@ buster.testCase('cli - init', {
   },
   'should contain init command and delegate to breaker init when exec is called': function (done) {
     this.mockConsole.expects('log').once().withExactArgs('Creating sample Breaker hosts file: .breaker.json');
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.init.action();
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.init.action();
     });
     this.stub(Breaker.prototype, 'init', function (cb) {
       assert.equals(typeof cb, 'function');
@@ -39,11 +36,8 @@ buster.testCase('cli - init', {
 
 buster.testCase('cli - format', {
   'should contain format command and delegate to breaker format when exec is called': function (done) {
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.format.action();
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.format.action();
     });
     this.stub(Breaker.prototype, 'format', function (type, cb) {
       assert.equals(type, 'sshconfig');
@@ -53,11 +47,8 @@ buster.testCase('cli - format', {
     cli.exec();
   },
   'should use custom type when passed via args': function (done) {
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.format.action({ type: 'clusterssh' });
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.format.action({ type: 'clusterssh' });
     });
     this.stub(Breaker.prototype, 'format', function (type, cb) {
       assert.equals(type, 'clusterssh');
@@ -67,11 +58,8 @@ buster.testCase('cli - format', {
     cli.exec();
   },
   'should pass labels array via constructor when argument labels are provided': function (done) {
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.format.action({ labels: 'foo,bar' });
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.format.action({ labels: 'foo,bar' });
     });
     this.stub(Breaker.prototype, 'format', function (type, cb) {
       assert.equals(this.opts.labels.length, 2);
@@ -85,11 +73,8 @@ buster.testCase('cli - format', {
 
 buster.testCase('cli - ssh', {
   'should contain ssh command and delegate to breaker ssh when exec is called': function (done) {
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.ssh.action('df -kh');
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.ssh.action('df -kh');
     });
     this.stub(Breaker.prototype, 'ssh', function (command, cb) {
       assert.equals(command, 'df -kh');
@@ -99,11 +84,8 @@ buster.testCase('cli - ssh', {
     cli.exec();
   },
   'should pass labels array via constructor when argument labels are provided': function (done) {
-    this.stub(bag, 'cli', {
-      command: function (base, actions) {
-        actions.commands.ssh.action('df -kh', { labels: 'foo,bar' });
-      },
-      exit: bag.cli.exit
+    this.stub(bag, 'command', function (base, actions) {
+      actions.commands.ssh.action('df -kh', { labels: 'foo,bar' });
     });
     this.stub(Breaker.prototype, 'ssh', function (command, cb) {
       assert.equals(this.opts.labels.length, 2);

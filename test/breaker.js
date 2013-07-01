@@ -1,4 +1,4 @@
-var bag = require('bagofholding'),
+var bag = require('bagofcli'),
   buster = require('buster'),
   Breaker = require('../lib/breaker'),
   fsx = require('fs.extra');
@@ -37,13 +37,13 @@ buster.testCase('breaker - format', {
 
 buster.testCase('breaker - ssh', {
   setUp: function () {
-    this.mockCli = this.mock(bag.cli);
+    this.mockBag = this.mock(bag);
     this.mockConsole = this.mock(console);
   },
   'should exec ssh command to hosts': function (done) {
-    this.mockCli.expects('exec').once().withArgs('ssh -i id_rsa1 user1@dev1.com:22 \'df -kh;\'', true).callsArgWith(2);
-    this.mockCli.expects('exec').once().withArgs('ssh -i id_rsa2 user2@dev2.com:22 \'df -kh;\'', true).callsArgWith(2);
-    this.mockCli.expects('exec').once().withArgs('ssh -i id_rsa3 user3@dev3.com:22 \'df -kh;\'', true).callsArgWith(2);
+    this.mockBag.expects('exec').once().withArgs('ssh -i id_rsa1 user1@dev1.com:22 \'df -kh;\'', true).callsArgWith(2);
+    this.mockBag.expects('exec').once().withArgs('ssh -i id_rsa2 user2@dev2.com:22 \'df -kh;\'', true).callsArgWith(2);
+    this.mockBag.expects('exec').once().withArgs('ssh -i id_rsa3 user3@dev3.com:22 \'df -kh;\'', true).callsArgWith(2);
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev1.com');
     this.mockConsole.expects('log').once().withExactArgs('> ssh -i id_rsa1 user1@dev1.com:22 \'df -kh;\'');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev2.com');
@@ -64,8 +64,8 @@ buster.testCase('breaker - ssh', {
     });
   },
   'should exec multiple ssh settings with same command on same host': function (done) {
-    this.mockCli.expects('exec').once().withArgs('ssh -i id_rsa1 user1@dev1.com:22 \'df -kh;\'', true).callsArgWith(2);
-    this.mockCli.expects('exec').once().withArgs('ssh -i id_rsa2 user2@dev1.com:2222 \'df -kh;\'', true).callsArgWith(2);
+    this.mockBag.expects('exec').once().withArgs('ssh -i id_rsa1 user1@dev1.com:22 \'df -kh;\'', true).callsArgWith(2);
+    this.mockBag.expects('exec').once().withArgs('ssh -i id_rsa2 user2@dev1.com:2222 \'df -kh;\'', true).callsArgWith(2);
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev1.com');
     this.mockConsole.expects('log').once().withExactArgs('> ssh -i id_rsa1 user1@dev1.com:22 \'df -kh;\'');
     this.mockConsole.expects('log').once().withExactArgs('> ssh -i id_rsa2 user2@dev1.com:2222 \'df -kh;\'');
@@ -81,7 +81,7 @@ buster.testCase('breaker - ssh', {
     });
   },
   'should create ssh command without key, with default user, and no port': function (done) {
-    this.mockCli.expects('exec').once().withArgs('ssh  dev1.com \'df -kh;\'', true).callsArgWith(2);
+    this.mockBag.expects('exec').once().withArgs('ssh  dev1.com \'df -kh;\'', true).callsArgWith(2);
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev1.com');
     this.mockConsole.expects('log').once().withExactArgs('> ssh  dev1.com \'df -kh;\'');
     var breaker = new Breaker();
@@ -99,10 +99,10 @@ buster.testCase('breaker - ssh', {
 
 buster.testCase('breaker - _config', {
   setUp: function () {
-    this.mockCli = this.mock(bag.cli);
+    this.mockBag = this.mock(bag);
   },
   'should return only config with specified label': function () {
-    this.mockCli.expects('lookupFile').once().returns('[' +
+    this.mockBag.expects('lookupFile').once().returns('[' +
       '{"host":"dev1.com","labels":["dev"]},' +
       '{"host":"prod1.com","labels":["prod"]},' +
       '{"host":"dev2.com","labels":["dev","build"]},' +
@@ -112,7 +112,7 @@ buster.testCase('breaker - _config', {
     assert.equals(filtered[0].host, 'prod1.com');
   },
   'should return only config with specified label when there are multiple labels': function () {
-    this.mockCli.expects('lookupFile').once().returns('[' +
+    this.mockBag.expects('lookupFile').once().returns('[' +
       '{"host":"dev1.com","labels":["dev"]},' +
       '{"host":"prod1.com","labels":["prod"]},' +
       '{"host":"dev2.com","labels":["dev","build"]},' +
@@ -123,7 +123,7 @@ buster.testCase('breaker - _config', {
     assert.equals(filtered[1].host, 'test1.com');
   },
   'should return all config when there is no label': function () {
-    this.mockCli.expects('lookupFile').once().returns('[' +
+    this.mockBag.expects('lookupFile').once().returns('[' +
       '{"host":"dev1.com","labels":["dev"]},' +
       '{"host":"prod1.com","labels":["prod"]},' +
       '{"host":"dev2.com","labels":["dev","build"]},' +
@@ -136,12 +136,12 @@ buster.testCase('breaker - _config', {
     assert.equals(filtered[3].host, 'test1.com');
   },
   'should return empty array when config is empty': function () {
-    this.mockCli.expects('lookupFile').once().returns('[]');
+    this.mockBag.expects('lookupFile').once().returns('[]');
     var filtered = new Breaker()._config();
     assert.equals(filtered.length, 0);
   },
   'should remove filtered out labels': function () {
-    this.mockCli.expects('lookupFile').once().returns('[' +
+    this.mockBag.expects('lookupFile').once().returns('[' +
       '{"host":"dev1.com","labels":["dev"]},' +
       '{"host":"prod1.com","labels":["prod","live"]},' +
       '{"host":"dev2.com","labels":["dev","build"]},' +
@@ -161,7 +161,7 @@ buster.testCase('breaker - _config', {
     assert.equals(filtered[2].labels[0], 'test');
   },
   'should handle regex labels': function () {
-    this.mockCli.expects('lookupFile').once().returns('[' +
+    this.mockBag.expects('lookupFile').once().returns('[' +
       '{"host":"dev1.com","labels":["dev"]},' +
       '{"host":"prod1.com","labels":["prod"]},' +
       '{"host":"dev2.com","labels":["dev","build"]},' +
@@ -173,7 +173,7 @@ buster.testCase('breaker - _config', {
     assert.equals(filtered[2].host, 'test1.com');
   },
   'should handle position aware labels': function () {
-    this.mockCli.expects('lookupFile').once().returns('[' +
+    this.mockBag.expects('lookupFile').once().returns('[' +
       '{"host":"dev1.com","labels":["dev"]},' +
       '{"host":"prod1.com","labels":["prod"]},' +
       '{"host":"dev2.com","labels":["dev","build"]},' +
@@ -184,7 +184,7 @@ buster.testCase('breaker - _config', {
     assert.equals(filtered[1].host, 'dev2.com');
   },
   'should handle labels containing dash': function () {
-    this.mockCli.expects('lookupFile').once().returns('[' +
+    this.mockBag.expects('lookupFile').once().returns('[' +
       '{"host":"dev1.com","labels":["dev-app"]},' +
       '{"host":"prod1.com","labels":["prod-db"]},' +
       '{"host":"dev2.com","labels":["dev-app","build"]},' +

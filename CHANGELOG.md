@@ -1,4 +1,7 @@
-### 0.0.6-pre
+### 0.0.7-pre
+*
+
+### 0.0.6
 * Update dependencies
 
 ### 0.0.5

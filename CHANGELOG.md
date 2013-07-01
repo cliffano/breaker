@@ -1,5 +1,5 @@
 ### 0.0.6-pre
-*
+* Update dependencies
 
 ### 0.0.5
 * Add regex label filtering support

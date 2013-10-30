@@ -8,12 +8,23 @@
       "options": [
         { "arg": "-t, --type <type>", "desc": "Format type" },
         { "arg": "-l, --labels <labels>", "desc": "Comma-separated labels" }
+      ],
+      "examples": [
+        "breaker --type clusterssh format",
+        "breaker --type ansible format",
+        "breaker --type sshconfig format",
+        "breaker --type clusterssh --labels label1,label2 format"
       ]
     },
     "ssh": {
       "desc": "Remotely execute shell command via SSH in series\n\tbreaker [-l <label1,...,labelN>] ssh <command>",
       "options": [
         { "arg": "-l, --labels <labels>", "desc": "Comma-separated labels" }
+      ],
+      "examples": [
+        "breaker ssh <command>",
+        "breaker --labels label1,label2 ssh <command>",
+        "breaker --labels .*dev.*,^prod,backup$ ssh <command>"
       ]
     }
   }

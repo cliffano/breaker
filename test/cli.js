@@ -1,7 +1,9 @@
 var bag = require('bagofcli'),
-  buster = require('buster'),
+  Breaker = require('../lib/breaker'),
+  buster = require('buster-node'),
   cli = require('../lib/cli'),
-  Breaker = require('../lib/breaker');
+  referee = require('referee'),
+  assert = referee.assert;
 
 buster.testCase('cli - exec', {
   'should contain commands with actions': function (done) {

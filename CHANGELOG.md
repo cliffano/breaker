@@ -1,5 +1,6 @@
 ### 0.0.7-pre
-*
+* Change test lib to buster-node + referee
+* Set min node engine to >= v0.8.0
 
 ### 0.0.6
 * Update dependencies

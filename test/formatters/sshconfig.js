@@ -1,5 +1,7 @@
-var buster = require('buster'),
-  formatter = require('../../lib/formatters/sshconfig');
+var buster = require('buster-node'),
+  formatter = require('../../lib/formatters/sshconfig'),
+  referee = require('referee'),
+  assert = referee.assert;
 
 buster.testCase('sshconfig - format', {
   'should return empty string when conf does not have any host': function () {

@@ -1,7 +1,9 @@
 var bag = require('bagofcli'),
-  buster = require('buster'),
   Breaker = require('../lib/breaker'),
-  fsx = require('fs.extra');
+  buster = require('buster-node'),
+  fsx = require('fs.extra'),
+  referee = require('referee'),
+  assert = referee.assert;
 
 buster.testCase('breaker - init', {
   'should copy sample .breaker.json file to current directory when init is called': function (done) {

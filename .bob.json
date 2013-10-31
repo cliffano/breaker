@@ -9,6 +9,12 @@
   "test": {
     "type": "buster"
   },
+  "complexity": {
+    "type": "plato"
+  },
+  "test": {
+    "type": "buster"
+  },
   "coverage": {
     "type": "buster-istanbul"
   },

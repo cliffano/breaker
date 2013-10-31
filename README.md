@@ -1,5 +1,13 @@
-Breaker [![Build Status](https://secure.travis-ci.org/cliffano/breaker.png?branch=master)](http://travis-ci.org/cliffano/breaker) [![Dependencies Status](https://david-dm.org/cliffano/breaker.png)](http://david-dm.org/cliffano/breaker) [![Published Version](https://badge.fury.io/js/breaker.png)](http://badge.fury.io/js/breaker)
------------
+<img align="right" src="https://raw.github.com/cliffano/breaker/master/avatar.jpg" alt="Avatar"/>
+
+[![Build Status](https://secure.travis-ci.org/cliffano/breaker.png?branch=master)](http://travis-ci.org/cliffano/breaker)
+[![Dependencies Status](https://david-dm.org/cliffano/breaker.png)](http://david-dm.org/cliffano/breaker)
+[![Published Version](https://badge.fury.io/js/breaker.png)](http://badge.fury.io/js/breaker)
+<br/>
+[![npm Badge](https://nodei.co/npm/breaker.png)](http://npmjs.org/package/breaker)
+
+Breaker
+-------
 
 Breaker is a utility tool for other server management tools.
 

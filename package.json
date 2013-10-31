@@ -18,6 +18,7 @@
   "bin": {
     "breaker": "./bin/breaker"
   },
+  "preferGlobal": true,
   "main": "./lib/breaker",
   "repository": {
     "type": "git",

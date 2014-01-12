@@ -2,6 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/cliffano/breaker.png?branch=master)](http://travis-ci.org/cliffano/breaker)
 [![Dependencies Status](https://david-dm.org/cliffano/breaker.png)](http://david-dm.org/cliffano/breaker)
+[![Coverage Status](https://coveralls.io/repos/cliffano/breaker/badge.png?branch=master)](https://coveralls.io/r/cliffano/breaker?branch=master)
 [![Published Version](https://badge.fury.io/js/breaker.png)](http://badge.fury.io/js/breaker)
 <br/>
 [![npm Badge](https://nodei.co/npm/breaker.png)](http://npmjs.org/package/breaker)

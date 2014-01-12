@@ -36,8 +36,8 @@
     "async": "~0.2.9",
     "bagofcli": "~0.0.8",
     "fs.extra": "~1.2.1",
-    "lodash": "~2.2.1",
-    "ssh2": "~0.2.12"
+    "lodash": "~2.4.1",
+    "ssh2": "~0.2.16"
   },
   "devDependencies": {
     "buster-node": "~0.7.0",

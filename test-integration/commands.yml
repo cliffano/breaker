@@ -1,29 +1,32 @@
+- params:
+    breaker: ../../../../../bin/breaker
+
 - description: Command help should display help information
-  command: ../../../../../bin/breaker --help
+  command: '{breaker} --help'
   exitcode: 0
   output: 'Usage: breaker'
 
 - description: Command init should create sample Breaker hosts file
-  command: ../../../../../bin/breaker init
+  command: '{breaker} init'
   exitcode: 0
   output: 'Creating sample Breaker hosts file: .breaker.json'
 
 - description: Command format clusterssh type should display formatted hosts info
-  command: ../../../../../bin/breaker --type clusterssh format
+  command: '{breaker} --type clusterssh format'
   exitcode: 0
   output: 'clusters = all dev dev1 dev2 prod prod1'
 
 - description: Command format ansible type should display formatted hosts info
-  command: ../../../../../bin/breaker --type ansible format
+  command: '{breaker} --type ansible format'
   exitcode: 0
   output: '\[all\]\ndev1.com\ndev2.net\nprod1.org\n'
 
 - description: Command format sshconfig type should display formatted hosts info
-  command: ../../../../../bin/breaker --type sshconfig format
+  command: '{breaker} --type sshconfig format'
   exitcode: 0
   output: 'HostName dev1.com'
 
 - description: Command ssh should fail due to invalid remote host
-  command: ../../../../../bin/breaker ssh "uname -a"
+  command: '{breaker} ssh "uname -a"'
   exitcode: 0
   output: 'ssh -i path/to/key1 user1@dev1.com:221 ''uname -a'''

@@ -9,7 +9,7 @@
     "shell",
     "script"
   ],
-  "version": "0.0.8",
+  "version": "0.1.0",
   "homepage": "http://github.com/cliffano/breaker",
   "author": "Cliffano Subagio <blah@cliffano.com> (http://blog.cliffano.com)",
   "contributors": [
@@ -45,7 +45,7 @@
   },
   "scripts": {},
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 0.10.0"
   },
   "licenses": [
     {

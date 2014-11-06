@@ -4,6 +4,9 @@ var buster = require('buster-node'),
   assert = referee.assert;
 
 buster.testCase('sshconfig - format', {
+  setUp: function () {
+    this.mock({});
+  },
   'should return empty string when conf does not have any host': function () {
     var conf = [];
     assert.equals(formatter.format(conf), '');

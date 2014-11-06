@@ -6,6 +6,9 @@ var bag = require('bagofcli'),
   assert = referee.assert;
 
 buster.testCase('breaker - init', {
+  setUp: function () {
+    this.mock({});
+  },
   'should copy sample .breaker.json file to current directory when init is called': function (done) {
     this.stub(fsx, 'copy', function (src, dest, cb) {
       assert.isTrue(src.match(/\/examples\/.breaker.json$/).length === 1);

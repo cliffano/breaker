@@ -14,6 +14,7 @@ buster.testCase('cli - exec', {
       assert.defined(actions.commands.ssh.action);
       done();
     };
+    this.mock({});
     this.stub(bag, 'command', mockCommand);
     cli.exec();
   }
@@ -37,6 +38,9 @@ buster.testCase('cli - init', {
 });
 
 buster.testCase('cli - format', {
+  setUp: function () {
+    this.mock({});
+  },
   'should contain format command and delegate to breaker format when exec is called': function (done) {
     this.stub(bag, 'command', function (base, actions) {
       actions.commands.format.action();
@@ -74,6 +78,9 @@ buster.testCase('cli - format', {
 });
 
 buster.testCase('cli - ssh', {
+  setUp: function () {
+    this.mock({});
+  },
   'should contain ssh command and delegate to breaker ssh when exec is called': function (done) {
     this.stub(bag, 'command', function (base, actions) {
       actions.commands.ssh.action('df -kh');

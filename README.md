@@ -80,3 +80,8 @@ For SSH with specific key, user, and port (all optionals):
           ]
         }
     ]
+
+Colophon
+--------
+
+[Developer's Guide](http://cliffano.github.io/developers_guide.html#nodejs)

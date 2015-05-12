@@ -1,7 +1,7 @@
 <img align="right" src="https://raw.github.com/cliffano/breaker/master/avatar.jpg" alt="Avatar"/>
 
-[![Build Status](https://secure.travis-ci.org/cliffano/breaker.png?branch=master)](http://travis-ci.org/cliffano/breaker)
-[![Dependencies Status](https://david-dm.org/cliffano/breaker.png)](http://david-dm.org/cliffano/breaker)
+[![Build Status](https://img.shields.io/travis/cliffano/breaker.svg)](http://travis-ci.org/cliffano/breaker)
+[![Dependencies Status](https://img.shields.io/david/cliffano/breaker.svg)](http://david-dm.org/cliffano/breaker)
 [![Coverage Status](https://coveralls.io/repos/cliffano/breaker/badge.png?branch=master)](https://coveralls.io/r/cliffano/breaker?branch=master)
 [![Published Version](https://badge.fury.io/js/breaker.png)](http://badge.fury.io/js/breaker)
 <br/>

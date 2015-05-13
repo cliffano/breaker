@@ -2,8 +2,8 @@
 
 [![Build Status](https://img.shields.io/travis/cliffano/breaker.svg)](http://travis-ci.org/cliffano/breaker)
 [![Dependencies Status](https://img.shields.io/david/cliffano/breaker.svg)](http://david-dm.org/cliffano/breaker)
-[![Coverage Status](https://coveralls.io/repos/cliffano/breaker/badge.png?branch=master)](https://coveralls.io/r/cliffano/breaker?branch=master)
-[![Published Version](https://badge.fury.io/js/breaker.png)](http://badge.fury.io/js/breaker)
+[![Coverage Status](https://img.shields.io/coveralls/cliffano/breaker.svg)](https://coveralls.io/r/cliffano/breaker?branch=master)
+[![Published Version](https://img.shields.io/npm/v/breaker.svg)](http://www.npmjs.com/package/breaker)
 <br/>
 [![npm Badge](https://nodei.co/npm/breaker.png)](http://npmjs.org/package/breaker)
 

@@ -64,7 +64,7 @@ buster.testCase('breaker - ssh', {
         ];
     };
     breaker.ssh('df -kh;', function (err, results) {
-      assert.equals(err, undefined);
+      assert.equals(err, null);
       done();
     });
   },
@@ -81,7 +81,7 @@ buster.testCase('breaker - ssh', {
         ];
     };
     breaker.ssh('df -kh;', function (err, results) {
-      assert.equals(err, undefined);
+      assert.equals(err, null);
       done();
     });
   },
@@ -96,7 +96,7 @@ buster.testCase('breaker - ssh', {
         ];
     };
     breaker.ssh('df -kh;', function (err, results) {
-      assert.equals(err, undefined);
+      assert.equals(err, null);
       done();
     });
   }

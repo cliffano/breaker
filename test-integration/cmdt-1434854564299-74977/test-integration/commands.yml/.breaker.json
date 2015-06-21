@@ -1,0 +1,38 @@
+[
+  {
+    "host": "dev1.com",
+    "desc": "Dev1 description",
+    "labels": [ "dev1", "dev", "all" ],
+    "ssh": [
+      {
+        "user": "user1",
+        "port": 221,
+        "key": "path/to/key1"
+      }
+    ]
+  },
+  {
+    "host": "dev2.net",
+    "desc": "Dev2 description",
+    "labels": [ "dev2", "dev", "all" ],
+    "ssh": [
+      {
+        "user": "user2",
+        "port": 222,
+        "key": "path/to/key2"
+      }
+    ]
+  },
+  {
+    "host": "prod1.org",
+    "desc": "Prod1 description",
+    "labels": [ "prod1", "prod", "all" ],
+    "ssh": [
+      {
+        "user": "user3",
+        "port": 223,
+        "key": "path/to/key3"
+      }
+    ]
+  }
+]

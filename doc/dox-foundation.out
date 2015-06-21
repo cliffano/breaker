@@ -1,0 +1,5 @@
+[ 'lib/breaker.js',
+  'lib/cli.js',
+  'lib/formatters/ansible.js',
+  'lib/formatters/clusterssh.js',
+  'lib/formatters/sshconfig.js' ]

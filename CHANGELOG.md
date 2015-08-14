@@ -1,5 +1,5 @@
 ### 0.1.2-pre
-*
+* Fix SSH command with port
 
 ### 0.1.1
 * Add build reports to readme

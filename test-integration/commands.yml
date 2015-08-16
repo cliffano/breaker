@@ -26,7 +26,7 @@
   exitcode: 0
   output: 'HostName dev1.com'
 
-- description: Command ssh should fail due to invalid remote host
+- description: Command ssh should fail due to invalid remote host and missing key
   command: '{breaker} ssh "uname -a"'
   exitcode: 0
-  output: 'ssh -i path/to/key1 user1@dev1.com:221 ''uname -a'''
+  output: 'ssh -i path/to/key1 -p 221 user1@dev1.com ''uname -a'''

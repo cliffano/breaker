@@ -1,8 +1,11 @@
 var bag = require('bagofcli'),
   Breaker = require('../lib/breaker'),
   buster = require('buster-node'),
+  colors = require('colors'),
+  fs = require('fs'),
   fsx = require('fs.extra'),
   referee = require('referee'),
+  ssh2 = require('ssh2'),
   assert = referee.assert;
 
 buster.testCase('breaker - init', {
@@ -44,17 +47,47 @@ buster.testCase('breaker - ssh', {
   setUp: function () {
     this.mockBag = this.mock(bag);
     this.mockConsole = this.mock(console);
+    this.mockFs = this.mock(fs);
   },
   'should exec ssh command to hosts': function (done) {
-    this.mockBag.expects('exec').once().withArgs('ssh -i id_rsa1 -p 22 user1@dev1.com \'df -kh;\'', true).callsArgWith(2);
-    this.mockBag.expects('exec').once().withArgs('ssh -i id_rsa2 -p 22 user2@dev2.com \'df -kh;\'', true).callsArgWith(2);
-    this.mockBag.expects('exec').once().withArgs('ssh -i id_rsa3 -p 22 user3@dev3.com \'df -kh;\'', true).callsArgWith(2);
+    this.mockFs.expects('readFileSync').once().withExactArgs('id_rsa1').returns('id_rsa1_key');
+    this.mockFs.expects('readFileSync').once().withExactArgs('id_rsa2').returns('id_rsa2_key');
+    this.mockFs.expects('readFileSync').once().withExactArgs('id_rsa3').returns('id_rsa3_key');
+    this.mockConsole.expects('log').thrice().withExactArgs('Exit code: 0');
+    this.mockConsole.expects('log').twice().withExactArgs('some info'.green);
+    this.mockConsole.expects('error').twice().withExactArgs('some error'.red);
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev1.com');
-    this.mockConsole.expects('log').once().withExactArgs('> ssh -i id_rsa1 -p 22 user1@dev1.com \'df -kh;\'');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev2.com');
-    this.mockConsole.expects('log').once().withExactArgs('> ssh -i id_rsa2 -p 22 user2@dev2.com \'df -kh;\'');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev3.com');
-    this.mockConsole.expects('log').once().withExactArgs('> ssh -i id_rsa3 -p 22 user3@dev3.com \'df -kh;\'');
+    var mockConn = {
+      connect: function (opts) {
+      }
+    };
+    var mockStream = {
+      on: function (event, cb) {
+        if (event === 'close') {
+          cb('0');
+        } else if (event === 'data') {
+          cb('some info');
+        }
+        return mockStream;
+      },
+      stderr: {
+        on: function (event, cb) {
+          cb('some error');
+        }
+      }
+    };
+    this.stub(ssh2.Client.prototype, 'on', function (event, cb) {
+      cb();
+      return mockConn;
+    });
+    this.stub(ssh2.Client.prototype, 'exec', function (command, cb) {
+      cb(null, mockStream);
+    });
+    this.stub(ssh2.Client.prototype, 'end', function () {
+      return;
+    });
     var breaker = new Breaker();
     breaker._config = function () {
       return [
@@ -68,35 +101,80 @@ buster.testCase('breaker - ssh', {
       done();
     });
   },
-  'should exec multiple ssh settings with same command on same host': function (done) {
-    this.mockBag.expects('exec').once().withArgs('ssh -i id_rsa1 -p 22 user1@dev1.com \'df -kh;\'', true).callsArgWith(2);
-    this.mockBag.expects('exec').once().withArgs('ssh -i id_rsa2 -p 2222 user2@dev1.com \'df -kh;\'', true).callsArgWith(2);
+  'should pass error when unable to execute command': function (done) {
+    this.mockFs.expects('readFileSync').once().withExactArgs('id_rsa1').returns('id_rsa1_key');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev1.com');
-    this.mockConsole.expects('log').once().withExactArgs('> ssh -i id_rsa1 -p 22 user1@dev1.com \'df -kh;\'');
-    this.mockConsole.expects('log').once().withExactArgs('> ssh -i id_rsa2 -p 2222 user2@dev1.com \'df -kh;\'');
+    this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev2.com');
+    this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev3.com');
+    this.stub(ssh2.Client.prototype, 'on', function (event, cb) {
+      cb();
+      return {
+        connect: function (opts) {}
+      };
+    });
+    this.stub(ssh2.Client.prototype, 'exec', function (command, cb) {
+      cb(new Error('some error'));
+    });
     var breaker = new Breaker();
     breaker._config = function () {
       return [
-        { "host": "dev1.com", "ssh": [{ "port": 22, "user": "user1", "key": "id_rsa1" }, { "port": 2222, "user": "user2", "key": "id_rsa2" }], "labels": "dev1" }
+        { "host": "dev1.com", "ssh": [{ "port": 22, "user": "user1", "key": "id_rsa1" }], "labels": "dev1" },
+        { "host": "dev2.com", "ssh": [{ "port": 22, "user": "user2", "key": "id_rsa2" }], "labels": "dev2" },
+        { "host": "dev3.com", "ssh": [{ "port": 22, "user": "user3", "key": "id_rsa3" }], "labels": "dev3" }
         ];
     };
     breaker.ssh('df -kh;', function (err, results) {
-      assert.equals(err, null);
+      assert.equals(err.message, 'some error');
       done();
     });
   },
-  'should create ssh command without key, with default user, and no port': function (done) {
-    this.mockBag.expects('exec').once().withArgs('ssh   dev1.com \'df -kh;\'', true).callsArgWith(2);
+  'should pass error when exit code is non-zero': function (done) {
+    this.mockFs.expects('readFileSync').once().withExactArgs('id_rsa1').returns('id_rsa1_key');
+    this.mockConsole.expects('log').once().withExactArgs('Exit code: 1');
+    this.mockConsole.expects('log').once().withExactArgs('some info');
+    this.mockConsole.expects('error').once().withExactArgs('some error');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev1.com');
-    this.mockConsole.expects('log').once().withExactArgs('> ssh   dev1.com \'df -kh;\'');
+    this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev2.com');
+    this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev3.com');
+    var mockConn = {
+      connect: function (opts) {
+      }
+    };
+    var mockStream = {
+      on: function (event, cb) {
+        if (event === 'close') {
+          cb('1');
+        } else if (event === 'data') {
+          cb('some info');
+        }
+        return mockStream;
+      },
+      stderr: {
+        on: function (event, cb) {
+          cb('some error');
+        }
+      }
+    };
+    this.stub(ssh2.Client.prototype, 'on', function (event, cb) {
+      cb();
+      return mockConn;
+    });
+    this.stub(ssh2.Client.prototype, 'exec', function (command, cb) {
+      cb(null, mockStream);
+    });
+    this.stub(ssh2.Client.prototype, 'end', function () {
+      return;
+    });
     var breaker = new Breaker();
     breaker._config = function () {
       return [
-        { "host": "dev1.com", "labels": "dev1" }
+        { "host": "dev1.com", "ssh": [{ "port": 22, "user": "user1", "key": "id_rsa1" }], "labels": "dev1" },
+        { "host": "dev2.com", "ssh": [{ "port": 22, "user": "user2", "key": "id_rsa2" }], "labels": "dev2" },
+        { "host": "dev3.com", "ssh": [{ "port": 22, "user": "user3", "key": "id_rsa3" }], "labels": "dev3" }
         ];
     };
     breaker.ssh('df -kh;', function (err, results) {
-      assert.equals(err, null);
+      assert.equals(err.message, 'An error occurred when executing command: df -kh;, exit code: 1');
       done();
     });
   }

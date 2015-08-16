@@ -1,5 +1,7 @@
 ### 0.1.2-pre
 * Fix SSH command with port
+* Replace SSH command-line exec with ssh2 module
+* SSH options are now mandatory
 
 ### 0.1.1
 * Add build reports to readme

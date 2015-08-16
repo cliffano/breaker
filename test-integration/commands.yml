@@ -28,5 +28,5 @@
 
 - description: Command ssh should fail due to invalid remote host and missing key
   command: '{breaker} ssh "uname -a"'
-  exitcode: 0
-  output: 'ssh -i path/to/key1 -p 221 user1@dev1.com ''uname -a'''
+  exitcode: 1
+  output: 'no such file or directory ''path/to/key1'''

@@ -131,8 +131,8 @@ buster.testCase('breaker - ssh', {
   'should pass error when exit code is non-zero': function (done) {
     this.mockFs.expects('readFileSync').once().withExactArgs('id_rsa1').returns('id_rsa1_key');
     this.mockConsole.expects('log').once().withExactArgs('Exit code: 1');
-    this.mockConsole.expects('log').once().withExactArgs('some info');
-    this.mockConsole.expects('error').once().withExactArgs('some error');
+    this.mockConsole.expects('log').once().withExactArgs('some info'.green);
+    this.mockConsole.expects('error').once().withExactArgs('some error'.red);
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev1.com');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev2.com');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev3.com');

@@ -54,8 +54,8 @@ buster.testCase('breaker - ssh', {
     this.mockFs.expects('readFileSync').once().withExactArgs('id_rsa2').returns('id_rsa2_key');
     this.mockFs.expects('readFileSync').once().withExactArgs('id_rsa3').returns('id_rsa3_key');
     this.mockConsole.expects('log').thrice().withExactArgs('Exit code: 0');
-    this.mockConsole.expects('log').twice().withExactArgs('some info'.green);
-    this.mockConsole.expects('error').twice().withExactArgs('some error'.red);
+    this.mockConsole.expects('log').thrice().withExactArgs('some info'.green);
+    this.mockConsole.expects('error').thrice().withExactArgs('some error'.red);
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev1.com');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev2.com');
     this.mockConsole.expects('log').once().withExactArgs('+ %s', 'dev3.com');
